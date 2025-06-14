@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -30,6 +31,24 @@ interface PlaybookConfigFormProps {
   loading?: boolean;
 }
 
+const customerSupportSample = {
+  playbookName: "Customer Support Assistant",
+  description: "A comprehensive customer support playbook designed to handle various customer inquiries, complaints, and requests efficiently while maintaining high customer satisfaction.",
+  scenario: "Customer contacts support via chat, email, or phone with questions about products, services, billing issues, technical problems, or general inquiries. The agent needs to quickly identify the issue, provide accurate information, and resolve the customer's concern in a professional and timely manner.",
+  goals: [
+    "Resolve customer inquiries within first contact",
+    "Maintain customer satisfaction above 90%",
+    "Provide accurate product information",
+    "Handle escalations appropriately"
+  ],
+  toolsRequired: [
+    "CRM System",
+    "Knowledge Base",
+    "Ticket Management System",
+    "Live Chat Platform"
+  ]
+};
+
 const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loading = false }) => {
   const [goals, setGoals] = useState<string[]>([]);
   const [toolsRequired, setToolsRequired] = useState<string[]>([]);
@@ -50,6 +69,19 @@ const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loadi
       validationLevel: "standard"
     }
   });
+
+  const watchedDomain = form.watch("domain");
+
+  useEffect(() => {
+    if (watchedDomain === "customer-support") {
+      // Auto-populate sample data for customer support
+      form.setValue("playbookName", customerSupportSample.playbookName);
+      form.setValue("description", customerSupportSample.description);
+      form.setValue("scenario", customerSupportSample.scenario);
+      setGoals(customerSupportSample.goals);
+      setToolsRequired(customerSupportSample.toolsRequired);
+    }
+  }, [watchedDomain, form]);
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const config: PlaybookConfig = {
@@ -109,7 +141,10 @@ const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loadi
                   <FormItem>
                     <FormLabel>Playbook Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter playbook name..." {...field} />
+                      <Input 
+                        placeholder={watchedDomain === "customer-support" ? "Customer Support Assistant" : "Enter playbook name..."} 
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,7 +188,10 @@ const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loadi
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Describe what this playbook should accomplish..."
+                      placeholder={watchedDomain === "customer-support" ? 
+                        "A comprehensive customer support playbook designed to handle various customer inquiries..." : 
+                        "Describe what this playbook should accomplish..."
+                      }
                       className="min-h-[100px]"
                       {...field} 
                     />
@@ -171,7 +209,10 @@ const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loadi
                   <FormLabel>Scenario</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Describe the typical scenario this playbook will handle..."
+                      placeholder={watchedDomain === "customer-support" ? 
+                        "Customer contacts support via chat, email, or phone with questions about products, services..." : 
+                        "Describe the typical scenario this playbook will handle..."
+                      }
                       className="min-h-[100px]"
                       {...field} 
                     />
