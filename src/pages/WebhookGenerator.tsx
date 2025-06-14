@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
-import { Copy, Download, Play, Settings, Cloud, Github, Zap } from "lucide-react";
+import { Copy, Download, Play, Settings, Cloud, Github, Zap, Database, Cpu, MessageSquare, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const WebhookGenerator = () => {
@@ -38,12 +38,27 @@ const WebhookGenerator = () => {
   ];
 
   const prebuiltTemplates = [
-    { id: "payment", name: "Payment Processing", description: "Stripe, PayPal webhook handlers", category: "E-commerce" },
-    { id: "notification", name: "Push Notifications", description: "Firebase, OneSignal integrations", category: "Communication" },
-    { id: "email", name: "Email Service", description: "SendGrid, Mailgun handlers", category: "Communication" },
-    { id: "analytics", name: "Analytics Tracking", description: "Google Analytics, Mixpanel", category: "Analytics" },
-    { id: "social", name: "Social Media", description: "Twitter, Facebook API handlers", category: "Social" },
-    { id: "storage", name: "File Storage", description: "AWS S3, Google Cloud Storage", category: "Storage" }
+    // Data Fetching Templates
+    { id: "api-fetch", name: "Fetch Data from API", description: "REST API data fetching with error handling", category: "Data Fetching", icon: "🔄" },
+    { id: "bigquery", name: "BigQuery Data Fetch", description: "Query and fetch data from Google BigQuery", category: "Data Fetching", icon: "📊" },
+    { id: "apigee", name: "Apigee API Gateway", description: "Fetch data through Apigee API management", category: "Data Fetching", icon: "🌐" },
+    
+    // Database Operations
+    { id: "firestore", name: "Firestore CRUD", description: "Create, Read, Update, Delete operations for Firestore", category: "Database", icon: "🔥" },
+    { id: "cloudsql-postgres", name: "Cloud SQL PostgreSQL", description: "CRUD operations for PostgreSQL on Google Cloud", category: "Database", icon: "🐘" },
+    { id: "cloudsql-mysql", name: "Cloud SQL MySQL", description: "CRUD operations for MySQL on Google Cloud", category: "Database", icon: "🐬" },
+    
+    // External Services
+    { id: "twilio", name: "Twilio Integration", description: "SMS, Voice, and messaging via Twilio API", category: "Communication", icon: "📱" },
+    { id: "openai", name: "OpenAI Integration", description: "AI-powered responses using OpenAI GPT models", category: "AI Services", icon: "🤖" },
+    
+    // Original Templates
+    { id: "payment", name: "Payment Processing", description: "Stripe, PayPal webhook handlers", category: "E-commerce", icon: "💳" },
+    { id: "notification", name: "Push Notifications", description: "Firebase, OneSignal integrations", category: "Communication", icon: "🔔" },
+    { id: "email", name: "Email Service", description: "SendGrid, Mailgun handlers", category: "Communication", icon: "📧" },
+    { id: "analytics", name: "Analytics Tracking", description: "Google Analytics, Mixpanel", category: "Analytics", icon: "📈" },
+    { id: "social", name: "Social Media", description: "Twitter, Facebook API handlers", category: "Social", icon: "📱" },
+    { id: "storage", name: "File Storage", description: "AWS S3, Google Cloud Storage", category: "Storage", icon: "📁" }
   ];
 
   const starterCodes = {
@@ -139,6 +154,328 @@ public class WebhookController {
         }
     }
 }`
+  };
+
+  const templateCodes = {
+    "api-fetch": {
+      nodejs: `// API Data Fetching Webhook
+const express = require('express');
+const axios = require('axios');
+const app = express();
+
+app.use(express.json());
+
+app.post('/webhook/fetch-api-data', async (req, res) => {
+  try {
+    const { apiUrl, headers = {}, method = 'GET' } = req.body;
+    
+    const response = await axios({
+      method,
+      url: apiUrl,
+      headers: {
+        'Content-Type': 'application/json',
+        ...headers
+      },
+      timeout: 10000
+    });
+    
+    console.log('API data fetched successfully:', response.data);
+    
+    res.status(200).json({
+      success: true,
+      data: response.data,
+      status: response.status
+    });
+  } catch (error) {
+    console.error('API fetch error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      code: error.response?.status || 'NETWORK_ERROR'
+    });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`API Fetch webhook server running on port \${PORT}\`);
+});`
+    },
+    "bigquery": {
+      nodejs: `// BigQuery Data Fetching Webhook
+const express = require('express');
+const { BigQuery } = require('@google-cloud/bigquery');
+const app = express();
+
+app.use(express.json());
+
+const bigquery = new BigQuery({
+  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+  keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE
+});
+
+app.post('/webhook/bigquery-data', async (req, res) => {
+  try {
+    const { query, dataset, table } = req.body;
+    
+    const options = {
+      query: query || \`SELECT * FROM \\\`\${dataset}.\${table}\\\` LIMIT 100\`,
+      location: 'US',
+    };
+
+    const [job] = await bigquery.createQueryJob(options);
+    const [rows] = await job.getQueryResults();
+    
+    console.log('BigQuery data fetched:', rows.length, 'rows');
+    
+    res.status(200).json({
+      success: true,
+      data: rows,
+      rowCount: rows.length
+    });
+  } catch (error) {
+    console.error('BigQuery error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`BigQuery webhook server running on port \${PORT}\`);
+});`
+    },
+    "firestore": {
+      nodejs: `// Firestore CRUD Operations Webhook
+const express = require('express');
+const admin = require('firebase-admin');
+const app = express();
+
+app.use(express.json());
+
+// Initialize Firebase Admin
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+  projectId: process.env.FIREBASE_PROJECT_ID
+});
+
+const db = admin.firestore();
+
+// Create document
+app.post('/webhook/firestore/create', async (req, res) => {
+  try {
+    const { collection, documentId, data } = req.body;
+    
+    const docRef = documentId 
+      ? db.collection(collection).doc(documentId)
+      : db.collection(collection).doc();
+    
+    await docRef.set({
+      ...data,
+      createdAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+    
+    res.status(200).json({
+      success: true,
+      documentId: docRef.id,
+      message: 'Document created successfully'
+    });
+  } catch (error) {
+    console.error('Firestore create error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Read document
+app.post('/webhook/firestore/read', async (req, res) => {
+  try {
+    const { collection, documentId, limit = 10 } = req.body;
+    
+    if (documentId) {
+      const doc = await db.collection(collection).doc(documentId).get();
+      const data = doc.exists ? { id: doc.id, ...doc.data() } : null;
+      
+      res.status(200).json({
+        success: true,
+        data
+      });
+    } else {
+      const snapshot = await db.collection(collection).limit(limit).get();
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      
+      res.status(200).json({
+        success: true,
+        data,
+        count: data.length
+      });
+    }
+  } catch (error) {
+    console.error('Firestore read error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`Firestore CRUD webhook server running on port \${PORT}\`);
+});`
+    },
+    "twilio": {
+      nodejs: `// Twilio Integration Webhook
+const express = require('express');
+const twilio = require('twilio');
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
+// Send SMS
+app.post('/webhook/twilio/sms', async (req, res) => {
+  try {
+    const { to, message, from } = req.body;
+    
+    const result = await client.messages.create({
+      body: message,
+      from: from || process.env.TWILIO_PHONE_NUMBER,
+      to: to
+    });
+    
+    console.log('SMS sent successfully:', result.sid);
+    
+    res.status(200).json({
+      success: true,
+      messageSid: result.sid,
+      status: result.status
+    });
+  } catch (error) {
+    console.error('Twilio SMS error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Handle incoming SMS
+app.post('/webhook/twilio/incoming', (req, res) => {
+  try {
+    const { From, Body, MessageSid } = req.body;
+    
+    console.log('Incoming SMS:', { from: From, body: Body, sid: MessageSid });
+    
+    // Process incoming message here
+    const response = \`Received your message: "\${Body}"\`;
+    
+    res.set('Content-Type', 'text/xml');
+    res.send(\`
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Response>
+        <Message>\${response}</Message>
+      </Response>
+    \`);
+  } catch (error) {
+    console.error('Twilio webhook error:', error);
+    res.status(500).send('Error processing webhook');
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`Twilio webhook server running on port \${PORT}\`);
+});`
+    },
+    "openai": {
+      nodejs: `// OpenAI Integration Webhook
+const express = require('express');
+const OpenAI = require('openai');
+const app = express();
+
+app.use(express.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+app.post('/webhook/openai/chat', async (req, res) => {
+  try {
+    const { message, model = 'gpt-4o-mini', maxTokens = 150 } = req.body;
+    
+    const completion = await openai.chat.completions.create({
+      model: model,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a helpful assistant that provides concise and accurate responses.'
+        },
+        {
+          role: 'user',
+          content: message
+        }
+      ],
+      max_tokens: maxTokens,
+      temperature: 0.7
+    });
+    
+    const response = completion.choices[0].message.content;
+    
+    console.log('OpenAI response generated successfully');
+    
+    res.status(200).json({
+      success: true,
+      response: response,
+      model: model,
+      usage: completion.usage
+    });
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Generate image with DALL-E
+app.post('/webhook/openai/image', async (req, res) => {
+  try {
+    const { prompt, size = '1024x1024', quality = 'standard' } = req.body;
+    
+    const image = await openai.images.generate({
+      model: 'dall-e-3',
+      prompt: prompt,
+      n: 1,
+      size: size,
+      quality: quality
+    });
+    
+    console.log('Image generated successfully');
+    
+    res.status(200).json({
+      success: true,
+      imageUrl: image.data[0].url,
+      revisedPrompt: image.data[0].revised_prompt
+    });
+  } catch (error) {
+    console.error('OpenAI image error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(\`OpenAI webhook server running on port \${PORT}\`);
+});`
+    }
   };
 
   const generateWebhookCode = () => {
@@ -238,6 +575,32 @@ const handleCustomLogic = async (data) => {
     return code + (functionalitySnippets[lang] || '');
   };
 
+  const useTemplate = (templateId) => {
+    const template = templateCodes[templateId];
+    if (template && language && template[language]) {
+      setGeneratedCode(template[language]);
+      setSelectedTemplate(templateId);
+      toast({
+        title: "Template applied!",
+        description: `${prebuiltTemplates.find(t => t.id === templateId)?.name} template has been loaded`
+      });
+    } else if (template) {
+      // Default to Node.js if language not selected or not available
+      setGeneratedCode(template.nodejs || '');
+      setSelectedTemplate(templateId);
+      toast({
+        title: "Template applied!",
+        description: `${prebuiltTemplates.find(t => t.id === templateId)?.name} template has been loaded (Node.js version)`
+      });
+    } else {
+      toast({
+        title: "Template not available",
+        description: "This template is not yet implemented for the selected language",
+        variant: "destructive"
+      });
+    }
+  };
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     toast({
@@ -251,6 +614,29 @@ const handleCustomLogic = async (data) => {
       title: `Deploy to ${platform}`,
       description: `Deployment instructions for ${platform} will be provided`,
     });
+  };
+
+  // Group templates by category
+  const groupedTemplates = prebuiltTemplates.reduce((acc, template) => {
+    if (!acc[template.category]) {
+      acc[template.category] = [];
+    }
+    acc[template.category].push(template);
+    return acc;
+  }, {});
+
+  const getCategoryIcon = (category) => {
+    const icons = {
+      "Data Fetching": <Database className="h-5 w-5 text-blue-500" />,
+      "Database": <Database className="h-5 w-5 text-green-500" />,
+      "Communication": <MessageSquare className="h-5 w-5 text-purple-500" />,
+      "AI Services": <Cpu className="h-5 w-5 text-orange-500" />,
+      "E-commerce": <Zap className="h-5 w-5 text-yellow-500" />,
+      "Analytics": <Zap className="h-5 w-5 text-red-500" />,
+      "Social": <Phone className="h-5 w-5 text-pink-500" />,
+      "Storage": <Cloud className="h-5 w-5 text-gray-500" />
+    };
+    return icons[category] || <Zap className="h-5 w-5" />;
   };
 
   return (
@@ -380,7 +766,7 @@ const handleCustomLogic = async (data) => {
                 <CardHeader>
                   <CardTitle className="text-blue-800">Starter Templates</CardTitle>
                   <CardDescription className="text-blue-600">
-                    3 Basic webhook implementations to get you started
+                    Basic webhook implementations to get you started
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -398,30 +784,36 @@ const handleCustomLogic = async (data) => {
                 </CardContent>
               </Card>
 
-              {prebuiltTemplates.map((template) => (
-                <Card key={template.id} className="cursor-pointer hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      {template.name}
-                      <Badge variant="secondary">{template.category}</Badge>
-                    </CardTitle>
-                    <CardDescription>{template.description}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button 
-                      className="w-full" 
-                      onClick={() => {
-                        setSelectedTemplate(template.id);
-                        toast({
-                          title: "Template selected",
-                          description: `${template.name} template will be applied to your webhook`
-                        });
-                      }}
-                    >
-                      Use Template
-                    </Button>
-                  </CardContent>
-                </Card>
+              {Object.entries(groupedTemplates).map(([category, templates]) => (
+                <div key={category} className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    {getCategoryIcon(category)}
+                    <h3 className="text-lg font-semibold text-gray-800">{category}</h3>
+                  </div>
+                  {templates.map((template) => (
+                    <Card key={template.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+                      <CardHeader>
+                        <CardTitle className="flex items-center justify-between text-sm">
+                          <span className="flex items-center gap-2">
+                            <span>{template.icon}</span>
+                            {template.name}
+                          </span>
+                          <Badge variant="secondary" className="text-xs">{template.category}</Badge>
+                        </CardTitle>
+                        <CardDescription className="text-xs">{template.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <Button 
+                          className="w-full" 
+                          size="sm"
+                          onClick={() => useTemplate(template.id)}
+                        >
+                          Use Template
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               ))}
             </div>
           </TabsContent>
