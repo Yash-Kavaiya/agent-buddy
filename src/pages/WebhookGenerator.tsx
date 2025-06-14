@@ -637,13 +637,13 @@ const handleCustomLogic = async (data) => {
   };
 
   // Group templates by category with proper typing
-  const groupedTemplates: Record<string, Template[]> = prebuiltTemplates.reduce((acc, template) => {
+  const groupedTemplates = prebuiltTemplates.reduce<Record<string, Template[]>>((acc, template) => {
     if (!acc[template.category]) {
       acc[template.category] = [];
     }
     acc[template.category].push(template);
     return acc;
-  }, {} as Record<string, Template[]]);
+  }, {});
 
   const getCategoryIcon = (category: string) => {
     const icons: Record<string, JSX.Element> = {
