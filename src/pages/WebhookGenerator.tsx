@@ -11,6 +11,26 @@ import { useState } from "react";
 import { Copy, Download, Play, Settings, Cloud, Github, Zap, Database, Cpu, MessageSquare, Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+interface Template {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  icon: string;
+}
+
+interface Language {
+  value: string;
+  label: string;
+  icon: string;
+}
+
+interface AuthType {
+  value: string;
+  label: string;
+  description: string;
+}
+
 const WebhookGenerator = () => {
   const [language, setLanguage] = useState("");
   const [authType, setAuthType] = useState("");
@@ -20,7 +40,7 @@ const WebhookGenerator = () => {
   const [activeTab, setActiveTab] = useState("generator");
   const { toast } = useToast();
 
-  const languages = [
+  const languages: Language[] = [
     { value: "nodejs", label: "Node.js", icon: "🟢" },
     { value: "python", label: "Python", icon: "🐍" },
     { value: "java", label: "Java", icon: "☕" },
@@ -30,14 +50,14 @@ const WebhookGenerator = () => {
     { value: "php", label: "PHP", icon: "🐘" }
   ];
 
-  const authTypes = [
+  const authTypes: AuthType[] = [
     { value: "oauth2", label: "OAuth2", description: "Industry standard OAuth2 flow" },
     { value: "jwt", label: "JWT", description: "JSON Web Token authentication" },
     { value: "apikey", label: "API Key", description: "Simple API key validation" },
     { value: "basic", label: "Basic Auth", description: "Username/password authentication" }
   ];
 
-  const prebuiltTemplates = [
+  const prebuiltTemplates: Template[] = [
     // Data Fetching Templates
     { id: "api-fetch", name: "Fetch Data from API", description: "REST API data fetching with error handling", category: "Data Fetching", icon: "🔄" },
     { id: "bigquery", name: "BigQuery Data Fetch", description: "Query and fetch data from Google BigQuery", category: "Data Fetching", icon: "📊" },
@@ -510,8 +530,8 @@ app.listen(PORT, () => {
     });
   };
 
-  const addAuthenticationCode = (code, auth, lang) => {
-    const authMiddleware = {
+  const addAuthenticationCode = (code: string, auth: string, lang: string) => {
+    const authMiddleware: Record<string, Record<string, string>> = {
       nodejs: {
         oauth2: `
 // OAuth2 middleware
@@ -560,9 +580,9 @@ const verifyApiKey = (req, res, next) => {
     return code + (authMiddleware[lang]?.[auth] || '');
   };
 
-  const addFunctionalityCode = (code, func, lang) => {
+  const addFunctionalityCode = (code: string, func: string, lang: string) => {
     // Add specific functionality based on description
-    const functionalitySnippets = {
+    const functionalitySnippets: Record<string, string> = {
       nodejs: `
 // Custom functionality: ${func}
 const handleCustomLogic = async (data) => {
@@ -575,10 +595,10 @@ const handleCustomLogic = async (data) => {
     return code + (functionalitySnippets[lang] || '');
   };
 
-  const useTemplate = (templateId) => {
-    const template = templateCodes[templateId];
-    if (template && language && template[language]) {
-      setGeneratedCode(template[language]);
+  const useTemplate = (templateId: string) => {
+    const template = templateCodes[templateId as keyof typeof templateCodes];
+    if (template && language && template[language as keyof typeof template]) {
+      setGeneratedCode(template[language as keyof typeof template]);
       setSelectedTemplate(templateId);
       toast({
         title: "Template applied!",
@@ -601,7 +621,7 @@ const handleCustomLogic = async (data) => {
     }
   };
 
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied to clipboard!",
@@ -609,24 +629,24 @@ const handleCustomLogic = async (data) => {
     });
   };
 
-  const deployToCloud = (platform) => {
+  const deployToCloud = (platform: string) => {
     toast({
       title: `Deploy to ${platform}`,
       description: `Deployment instructions for ${platform} will be provided`,
     });
   };
 
-  // Group templates by category
-  const groupedTemplates = prebuiltTemplates.reduce((acc, template) => {
+  // Group templates by category with proper typing
+  const groupedTemplates: Record<string, Template[]> = prebuiltTemplates.reduce((acc, template) => {
     if (!acc[template.category]) {
       acc[template.category] = [];
     }
     acc[template.category].push(template);
     return acc;
-  }, {});
+  }, {} as Record<string, Template[]]);
 
-  const getCategoryIcon = (category) => {
-    const icons = {
+  const getCategoryIcon = (category: string) => {
+    const icons: Record<string, JSX.Element> = {
       "Data Fetching": <Database className="h-5 w-5 text-blue-500" />,
       "Database": <Database className="h-5 w-5 text-green-500" />,
       "Communication": <MessageSquare className="h-5 w-5 text-purple-500" />,
