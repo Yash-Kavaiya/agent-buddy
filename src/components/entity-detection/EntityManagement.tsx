@@ -48,7 +48,19 @@ const EntityManagement = () => {
     try {
       const result = await getEntities();
       if (result.data) {
-        setEntities(result.data);
+        // Transform the data to match our interface
+        const transformedEntities: Entity[] = result.data.map(entity => ({
+          id: entity.id,
+          name: entity.name,
+          display_name: entity.display_name,
+          entity_type: (entity.entity_type === 'system' || entity.entity_type === 'custom') 
+            ? entity.entity_type 
+            : 'custom', // Default fallback
+          description: entity.description || '',
+          category: entity.category || '',
+          synonyms: entity.synonyms || []
+        }));
+        setEntities(transformedEntities);
       }
     } catch (error) {
       console.error('Error loading entities:', error);
@@ -79,7 +91,17 @@ const EntityManagement = () => {
       });
 
       if (result.data) {
-        setEntities(prev => [...prev, result.data]);
+        // Transform the result to match our interface
+        const newEntity: Entity = {
+          id: result.data.id,
+          name: result.data.name,
+          display_name: result.data.display_name,
+          entity_type: 'custom',
+          description: result.data.description || '',
+          category: result.data.category || '',
+          synonyms: []
+        };
+        setEntities(prev => [...prev, newEntity]);
         setIsCreateDialogOpen(false);
         setFormData({ name: "", display_name: "", description: "", category: "" });
         toast({

@@ -40,7 +40,18 @@ const ConversationLogs = () => {
     try {
       const result = await getConversationLogs();
       if (result.data) {
-        setLogs(result.data);
+        // Transform the data to match our interface
+        const transformedLogs: ConversationLog[] = result.data.map(log => ({
+          id: log.id,
+          user_input: log.user_input,
+          detected_entities: Array.isArray(log.detected_entities) ? log.detected_entities : [],
+          missing_entities: Array.isArray(log.missing_entities) ? log.missing_entities : [],
+          confidence_scores: log.confidence_scores || {},
+          language: log.language || 'en',
+          processed: log.processed || false,
+          created_at: log.created_at
+        }));
+        setLogs(transformedLogs);
       }
     } catch (error) {
       console.error('Error loading conversation logs:', error);
