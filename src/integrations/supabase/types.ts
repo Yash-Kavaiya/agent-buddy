@@ -9,7 +9,130 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      intents: {
+        Row: {
+          complexity: string | null
+          created_at: string
+          description: string | null
+          display_name: string
+          domain: string | null
+          entity_types: string[] | null
+          id: string
+          include_entities: boolean | null
+          include_negatives: boolean | null
+          include_variations: boolean | null
+          language: string | null
+          phrase_count: number | null
+          tone: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          complexity?: string | null
+          created_at?: string
+          description?: string | null
+          display_name: string
+          domain?: string | null
+          entity_types?: string[] | null
+          id?: string
+          include_entities?: boolean | null
+          include_negatives?: boolean | null
+          include_variations?: boolean | null
+          language?: string | null
+          phrase_count?: number | null
+          tone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          complexity?: string | null
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          domain?: string | null
+          entity_types?: string[] | null
+          id?: string
+          include_entities?: boolean | null
+          include_negatives?: boolean | null
+          include_variations?: boolean | null
+          language?: string | null
+          phrase_count?: number | null
+          tone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      phrase_entities: {
+        Row: {
+          created_at: string
+          end_index: number
+          entity_type: string
+          id: string
+          phrase_id: string
+          start_index: number
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          end_index: number
+          entity_type: string
+          id?: string
+          phrase_id: string
+          start_index: number
+          value: string
+        }
+        Update: {
+          created_at?: string
+          end_index?: number
+          entity_type?: string
+          id?: string
+          phrase_id?: string
+          start_index?: number
+          value?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "phrase_entities_phrase_id_fkey"
+            columns: ["phrase_id"]
+            isOneToOne: false
+            referencedRelation: "training_phrases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      training_phrases: {
+        Row: {
+          confidence: number | null
+          created_at: string
+          id: string
+          intent_id: string
+          text: string
+        }
+        Insert: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          intent_id: string
+          text: string
+        }
+        Update: {
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          intent_id?: string
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "training_phrases_intent_id_fkey"
+            columns: ["intent_id"]
+            isOneToOne: false
+            referencedRelation: "intents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

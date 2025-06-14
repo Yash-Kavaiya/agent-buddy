@@ -7,6 +7,7 @@ import IntentConfigForm from "@/components/intent-generator/IntentConfigForm";
 import GeneratedIntentPreview from "@/components/intent-generator/GeneratedIntentPreview";
 import TemplateLibrary from "@/components/intent-generator/TemplateLibrary";
 import IntentAnalytics from "@/components/intent-generator/IntentAnalytics";
+import SavedIntents from "@/components/intent-generator/SavedIntents";
 import { Intent } from "@/types/intent";
 
 const IntentGenerator = () => {
@@ -33,8 +34,9 @@ const IntentGenerator = () => {
         </div>
 
         <Tabs defaultValue="generator" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-[600px]">
+          <TabsList className="grid w-full grid-cols-5 lg:w-[750px]">
             <TabsTrigger value="generator">Generator</TabsTrigger>
+            <TabsTrigger value="saved">Saved Intents</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="bulk">Bulk Import</TabsTrigger>
@@ -52,6 +54,10 @@ const IntentGenerator = () => {
                 isGenerating={isGenerating}
               />
             </div>
+          </TabsContent>
+
+          <TabsContent value="saved">
+            <SavedIntents onIntentSelected={handleIntentGenerated} />
           </TabsContent>
 
           <TabsContent value="templates">

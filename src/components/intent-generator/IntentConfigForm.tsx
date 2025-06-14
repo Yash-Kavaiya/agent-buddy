@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronDown, Sparkles, Settings } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { generateIntent } from "@/services/intentGenerationService";
+import { saveIntent } from "@/services/intentDatabaseService";
 import { Intent, GenerationConfig } from "@/types/intent";
 import { useToast } from "@/hooks/use-toast";
 
@@ -27,6 +27,7 @@ const IntentConfigForm: React.FC<IntentConfigFormProps> = ({
 }) => {
   const { toast } = useToast();
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [config, setConfig] = useState<GenerationConfig>({
     intentName: "",
     description: "",
@@ -78,10 +79,24 @@ const IntentConfigForm: React.FC<IntentConfigFormProps> = ({
     try {
       const intent = await generateIntent(config);
       onIntentGenerated(intent);
-      toast({
-        title: "Intent Generated",
-        description: `Successfully generated ${intent.trainingPhrases.length} training phrases`,
-      });
+
+      // Auto-save to database
+      setIsSaving(true);
+      const { data, error } = await saveIntent(intent, config);
+      
+      if (error) {
+        console.error('Failed to save intent:', error);
+        toast({
+          title: "Intent Generated (Not Saved)",
+          description: `Successfully generated ${intent.trainingPhrases.length} training phrases, but failed to save to database`,
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Intent Generated & Saved",
+          description: `Successfully generated and saved ${intent.trainingPhrases.length} training phrases`,
+        });
+      }
     } catch (error) {
       toast({
         title: "Generation Failed",
@@ -90,6 +105,7 @@ const IntentConfigForm: React.FC<IntentConfigFormProps> = ({
       });
     } finally {
       onGeneratingChange(false);
+      setIsSaving(false);
     }
   };
 
@@ -273,14 +289,14 @@ const IntentConfigForm: React.FC<IntentConfigFormProps> = ({
 
         <Button
           onClick={handleGenerate}
-          disabled={isGenerating || !config.intentName || !config.description}
+          disabled={isGenerating || isSaving || !config.intentName || !config.description}
           className="w-full"
           size="lg"
         >
-          {isGenerating ? (
+          {isGenerating || isSaving ? (
             <>
               <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-              Generating Intent...
+              {isGenerating ? "Generating Intent..." : "Saving Intent..."}
             </>
           ) : (
             <>
