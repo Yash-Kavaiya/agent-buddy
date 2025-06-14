@@ -9,6 +9,216 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      conversation_logs: {
+        Row: {
+          confidence_scores: Json | null
+          created_at: string
+          detected_entities: Json | null
+          id: string
+          language: string | null
+          missing_entities: Json | null
+          processed: boolean | null
+          user_id: string | null
+          user_input: string
+        }
+        Insert: {
+          confidence_scores?: Json | null
+          created_at?: string
+          detected_entities?: Json | null
+          id?: string
+          language?: string | null
+          missing_entities?: Json | null
+          processed?: boolean | null
+          user_id?: string | null
+          user_input: string
+        }
+        Update: {
+          confidence_scores?: Json | null
+          created_at?: string
+          detected_entities?: Json | null
+          id?: string
+          language?: string | null
+          missing_entities?: Json | null
+          processed?: boolean | null
+          user_id?: string | null
+          user_input?: string
+        }
+        Relationships: []
+      }
+      entities: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          display_name: string
+          entity_type: string
+          id: string
+          is_composite: boolean | null
+          language: string | null
+          name: string
+          parent_entity_id: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_name: string
+          entity_type: string
+          id?: string
+          is_composite?: boolean | null
+          language?: string | null
+          name: string
+          parent_entity_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          display_name?: string
+          entity_type?: string
+          id?: string
+          is_composite?: boolean | null
+          language?: string | null
+          name?: string
+          parent_entity_id?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entities_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entity_analytics: {
+        Row: {
+          accuracy_score: number | null
+          created_at: string
+          date_tracked: string
+          entity_id: string | null
+          id: string
+          last_used_at: string | null
+          performance_data: Json | null
+          usage_count: number | null
+        }
+        Insert: {
+          accuracy_score?: number | null
+          created_at?: string
+          date_tracked?: string
+          entity_id?: string | null
+          id?: string
+          last_used_at?: string | null
+          performance_data?: Json | null
+          usage_count?: number | null
+        }
+        Update: {
+          accuracy_score?: number | null
+          created_at?: string
+          date_tracked?: string
+          entity_id?: string | null
+          id?: string
+          last_used_at?: string | null
+          performance_data?: Json | null
+          usage_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_analytics_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entity_relationships: {
+        Row: {
+          child_entity_id: string | null
+          created_at: string
+          id: string
+          parent_entity_id: string | null
+          relationship_type: string
+          strength: number | null
+        }
+        Insert: {
+          child_entity_id?: string | null
+          created_at?: string
+          id?: string
+          parent_entity_id?: string | null
+          relationship_type: string
+          strength?: number | null
+        }
+        Update: {
+          child_entity_id?: string | null
+          created_at?: string
+          id?: string
+          parent_entity_id?: string | null
+          relationship_type?: string
+          strength?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_relationships_child_entity_id_fkey"
+            columns: ["child_entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entity_relationships_parent_entity_id_fkey"
+            columns: ["parent_entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      entity_synonyms: {
+        Row: {
+          auto_generated: boolean | null
+          confidence_score: number | null
+          created_at: string
+          entity_id: string | null
+          id: string
+          language: string | null
+          synonym: string
+        }
+        Insert: {
+          auto_generated?: boolean | null
+          confidence_score?: number | null
+          created_at?: string
+          entity_id?: string | null
+          id?: string
+          language?: string | null
+          synonym: string
+        }
+        Update: {
+          auto_generated?: boolean | null
+          confidence_score?: number | null
+          created_at?: string
+          entity_id?: string | null
+          id?: string
+          language?: string | null
+          synonym?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entity_synonyms_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "entities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       intents: {
         Row: {
           complexity: string | null
