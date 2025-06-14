@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Download, Eye, FileJson, FileText } from "lucide-react";
+import { Trash2, Download, Eye, FileJson, FileText, Sparkles } from "lucide-react";
 import { getUserIntents, getIntentWithDetails, deleteIntent, DatabaseIntent } from "@/services/intentDatabaseService";
 import { exportIntentAsJSON, exportIntentAsCSV } from "@/services/intentExportService";
 import { Intent } from "@/types/intent";
