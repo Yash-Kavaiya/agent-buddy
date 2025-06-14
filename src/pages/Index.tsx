@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, Webhook, Book, Dashboard, Contact } from "lucide-react";
+import { Code, Webhook, Book, LayoutDashboard, Contact } from "lucide-react";
 
 const Index = () => {
   const features = [
@@ -46,27 +46,32 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-white">
       <Navigation />
       
-      {/* Hero Section */}
+      {/* Hero Section with Google-inspired design */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Welcome to <span className="text-blue-600">Agents Buddy</span>
+          <div className="flex justify-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-r from-blue-500 via-red-500 via-yellow-500 to-green-500 rounded-full flex items-center justify-center shadow-lg">
+              <Code className="h-10 w-10 text-white" />
+            </div>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-light text-gray-900 mb-6">
+            Welcome to <span className="font-normal text-blue-600">Agents Buddy</span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto font-light">
             Your comprehensive toolkit for Google CCAI Dialogflow development. 
             Build, test, and deploy conversational AI agents with powerful tools and resources.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" asChild>
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/dashboard">
-                <Dashboard className="mr-2 h-5 w-5" />
+                <LayoutDashboard className="mr-2 h-5 w-5" />
                 Get Started
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/learning-agents">
                 <Book className="mr-2 h-5 w-5" />
                 Learn Dialogflow
@@ -76,27 +81,29 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Features Grid with Google Material Design */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 bg-gray-50">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Powerful Development Tools</h2>
-          <p className="text-lg text-gray-600">Everything you need to build amazing Dialogflow agents</p>
+          <h2 className="text-3xl font-light text-gray-900 mb-4">Powerful Development Tools</h2>
+          <p className="text-lg text-gray-600 font-light">Everything you need to build amazing Dialogflow agents</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const IconComponent = feature.icon;
             return (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className="flex items-center space-x-2">
-                    <IconComponent className="h-6 w-6 text-blue-600" />
-                    <CardTitle>{feature.title}</CardTitle>
+              <Card key={index} className="hover:shadow-xl transition-all duration-300 border-0 rounded-xl bg-white">
+                <CardHeader className="pb-4">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <IconComponent className="h-5 w-5 text-blue-600" />
+                    </div>
+                    <CardTitle className="text-gray-900 font-medium text-lg">{feature.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="mb-4">{feature.description}</CardDescription>
-                  <Button asChild>
+                  <CardDescription className="mb-6 text-gray-600 leading-relaxed">{feature.description}</CardDescription>
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6" asChild>
                     <Link to={feature.link}>Try Now</Link>
                   </Button>
                 </CardContent>
@@ -106,16 +113,16 @@ const Index = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* CTA Section with Google colors */}
       <div className="bg-blue-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Build Amazing Agents?</h2>
-          <p className="text-xl mb-8">Join thousands of developers using Agents Buddy for their Dialogflow projects</p>
+          <h2 className="text-3xl font-light mb-4">Ready to Build Amazing Agents?</h2>
+          <p className="text-xl mb-8 font-light opacity-90">Join thousands of developers using Agents Buddy for their Dialogflow projects</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
+            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/my-dashboard">Start Building</Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600" asChild>
+            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/contact">
                 <Contact className="mr-2 h-5 w-5" />
                 Contact Us
