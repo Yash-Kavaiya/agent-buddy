@@ -1,4 +1,3 @@
-
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -498,6 +497,24 @@ const handleCustomLogic = async (data) => {
 
           <TabsContent value="deployment" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => deployToCloud('Google Cloud Platform')}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Cloud className="h-5 w-5 text-blue-500" />
+                    Google Cloud Platform
+                  </CardTitle>
+                  <CardDescription>Cloud Functions / Cloud Run / Compute Engine / GKE</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div>• Serverless & Container options</div>
+                    <div>• Auto-scaling capabilities</div>
+                    <div>• Global load balancing</div>
+                  </div>
+                  <Button className="w-full mt-4">Deploy to GCP</Button>
+                </CardContent>
+              </Card>
+
               <Card className="hover:shadow-lg transition-shadow cursor-pointer" onClick={() => deployToCloud('AWS Lambda')}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
