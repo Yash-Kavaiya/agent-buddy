@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,7 +53,15 @@ const PlaybookConfigForm: React.FC<PlaybookConfigFormProps> = ({ onSubmit, loadi
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const config: PlaybookConfig = {
-      ...values,
+      playbookName: values.playbookName,
+      description: values.description,
+      scenario: values.scenario,
+      domain: values.domain,
+      complexity: values.complexity,
+      maxTokens: values.maxTokens,
+      language: values.language,
+      includeExamples: values.includeExamples,
+      validationLevel: values.validationLevel,
       goals,
       toolsRequired
     };
