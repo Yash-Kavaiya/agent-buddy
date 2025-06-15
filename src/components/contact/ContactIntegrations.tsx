@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -48,7 +47,7 @@ const ContactIntegrations = () => {
       name: "Vertex AI Integration",
       description: "Advanced ML models and generative AI capabilities",
       status: "Active",
-      uptime = 99.5,
+      uptime: 99.5,
       features: ["Custom Models", "Generative AI", "AutoML", "Model Deployment"],
       tier: "Enterprise"
     }
