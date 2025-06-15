@@ -9,7 +9,7 @@ import {
   NavigationMenuList, 
   NavigationMenuTrigger 
 } from "@/components/ui/navigation-menu";
-import { Code, Book, Webhook, LayoutDashboard } from "lucide-react";
+import { Code, Book, Webhook, LayoutDashboard, DollarSign } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -110,6 +110,15 @@ const Navigation = () => {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link to="/templates" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">Templates</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link to="/pricing" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 flex items-center">
+                    <DollarSign className="h-4 w-4 mr-1" />
+                    Pricing
+                  </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               

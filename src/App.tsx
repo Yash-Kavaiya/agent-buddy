@@ -22,6 +22,7 @@ import Templates from "./pages/Templates";
 import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/Contact";
 import Community from "./pages/Community";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/pricing" element={<Pricing />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code, Webhook, Book, LayoutDashboard, Contact } from "lucide-react";
+import { Code, Webhook, Book, LayoutDashboard, Contact, DollarSign } from "lucide-react";
 
 const Index = () => {
   const features = [
@@ -121,6 +121,12 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/my-dashboard">Start Building</Link>
+            </Button>
+            <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-full font-medium" asChild>
+              <Link to="/pricing">
+                <DollarSign className="mr-2 h-5 w-5" />
+                View Pricing
+              </Link>
             </Button>
             <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-full font-medium" asChild>
               <Link to="/contact">
