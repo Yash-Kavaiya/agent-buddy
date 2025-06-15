@@ -13,7 +13,7 @@ const Templates = () => {
       category: "Support",
       intents: 25,
       entities: 15,
-      price: 49,
+      price: 2999,
       rating: 4.8,
       downloads: 1240,
       features: ["Multi-language support", "Ticket routing", "FAQ automation", "Escalation handling", "Knowledge base integration", "Analytics dashboard"]
@@ -24,7 +24,7 @@ const Templates = () => {
       category: "E-commerce",
       intents: 35,
       entities: 20,
-      price: 89,
+      price: 4999,
       rating: 4.9,
       downloads: 2150,
       features: ["Product catalog integration", "Order management", "Payment processing", "Inventory tracking", "Recommendation engine", "Cart abandonment recovery"]
@@ -35,7 +35,7 @@ const Templates = () => {
       category: "Healthcare",
       intents: 28,
       entities: 18,
-      price: 129,
+      price: 12999,
       rating: 4.7,
       downloads: 890,
       features: ["Appointment scheduling", "Doctor availability", "Patient records", "Insurance verification", "Reminder notifications", "HIPAA compliance"]
@@ -46,7 +46,7 @@ const Templates = () => {
       category: "Finance",
       intents: 40,
       entities: 25,
-      price: 199,
+      price: 25999,
       rating: 4.8,
       downloads: 756,
       features: ["Account management", "Transaction tracking", "Fraud detection", "Investment advice", "Loan processing", "Security authentication"]
@@ -57,7 +57,7 @@ const Templates = () => {
       category: "Food & Beverage",
       intents: 30,
       entities: 22,
-      price: 79,
+      price: 3999,
       rating: 4.6,
       downloads: 1580,
       features: ["Menu management", "Order tracking", "Delivery integration", "Payment processing", "Loyalty program", "Nutritional information"]
@@ -68,7 +68,7 @@ const Templates = () => {
       category: "Real Estate",
       intents: 32,
       entities: 19,
-      price: 149,
+      price: 8999,
       rating: 4.5,
       downloads: 432,
       features: ["Property search", "Virtual tours", "Mortgage calculator", "Agent matching", "Market analysis", "Document management"]
@@ -79,7 +79,7 @@ const Templates = () => {
       category: "Human Resources",
       intents: 26,
       entities: 16,
-      price: 159,
+      price: 6999,
       rating: 4.7,
       downloads: 678,
       features: ["Candidate screening", "Interview scheduling", "Application tracking", "Resume parsing", "Skills assessment", "Onboarding automation"]
@@ -90,7 +90,7 @@ const Templates = () => {
       category: "Travel",
       intents: 38,
       entities: 24,
-      price: 109,
+      price: 5999,
       rating: 4.8,
       downloads: 1120,
       features: ["Booking management", "Itinerary planning", "Local recommendations", "Weather updates", "Currency conversion", "Emergency assistance"]
@@ -101,7 +101,7 @@ const Templates = () => {
       category: "Education",
       intents: 33,
       entities: 21,
-      price: 89,
+      price: 7999,
       rating: 4.9,
       downloads: 1890,
       features: ["Course management", "Progress tracking", "Personalized tutoring", "Assessment tools", "Resource library", "Parent notifications"]
@@ -112,7 +112,7 @@ const Templates = () => {
       category: "Insurance",
       intents: 29,
       entities: 17,
-      price: 169,
+      price: 15999,
       rating: 4.6,
       downloads: 543,
       features: ["Claims processing", "Document collection", "Damage assessment", "Settlement tracking", "Policy information", "Fraud detection"]
@@ -123,7 +123,7 @@ const Templates = () => {
       category: "Automotive",
       intents: 27,
       entities: 18,
-      price: 119,
+      price: 4999,
       rating: 4.7,
       downloads: 687,
       features: ["Service scheduling", "Parts ordering", "Warranty tracking", "Vehicle history", "Maintenance reminders", "Cost estimation"]
@@ -134,7 +134,7 @@ const Templates = () => {
       category: "Legal",
       intents: 31,
       entities: 20,
-      price: 249,
+      price: 35999,
       rating: 4.5,
       downloads: 298,
       features: ["Case management", "Document preparation", "Attorney matching", "Legal research", "Billing tracking", "Confidentiality protection"]
@@ -145,7 +145,7 @@ const Templates = () => {
       category: "Health & Fitness",
       intents: 24,
       entities: 15,
-      price: 69,
+      price: 2499,
       rating: 4.8,
       downloads: 1450,
       features: ["Workout planning", "Nutrition tracking", "Health monitoring", "Goal setting", "Progress analytics", "Motivation system"]
@@ -156,7 +156,7 @@ const Templates = () => {
       category: "Property Management",
       intents: 34,
       entities: 23,
-      price: 139,
+      price: 9999,
       rating: 4.6,
       downloads: 521,
       features: ["Tenant communication", "Maintenance requests", "Rent collection", "Lease management", "Inspection scheduling", "Financial reporting"]
@@ -167,7 +167,7 @@ const Templates = () => {
       category: "Events",
       intents: 28,
       entities: 19,
-      price: 99,
+      price: 3999,
       rating: 4.7,
       downloads: 834,
       features: ["Vendor coordination", "Guest management", "Timeline tracking", "Budget management", "RSVP handling", "Venue booking"]
@@ -178,7 +178,7 @@ const Templates = () => {
       category: "Logistics",
       intents: 36,
       entities: 26,
-      price: 179,
+      price: 18999,
       rating: 4.5,
       downloads: 445,
       features: ["Shipment tracking", "Inventory control", "Delivery optimization", "Route planning", "Carrier management", "Cost analysis"]
@@ -189,7 +189,7 @@ const Templates = () => {
       category: "Retail",
       intents: 22,
       entities: 14,
-      price: 59,
+      price: 1999,
       rating: 4.6,
       downloads: 1320,
       features: ["Product information", "Stock checking", "Sales assistance", "Price comparison", "Loyalty program", "Store locator"]
@@ -200,7 +200,7 @@ const Templates = () => {
       category: "Telecommunications",
       intents: 37,
       entities: 24,
-      price: 159,
+      price: 14999,
       rating: 4.4,
       downloads: 612,
       features: ["Plan management", "Billing inquiries", "Technical support", "Service activation", "Network diagnostics", "Usage monitoring"]
@@ -211,7 +211,7 @@ const Templates = () => {
       category: "Manufacturing",
       intents: 30,
       entities: 21,
-      price: 189,
+      price: 22999,
       rating: 4.7,
       downloads: 387,
       features: ["Defect reporting", "Compliance checking", "Production monitoring", "Equipment maintenance", "Safety protocols", "Quality metrics"]
@@ -222,7 +222,7 @@ const Templates = () => {
       category: "Utilities",
       intents: 25,
       entities: 16,
-      price: 129,
+      price: 11999,
       rating: 4.5,
       downloads: 456,
       features: ["Consumption tracking", "Billing support", "Outage reporting", "Service requests", "Energy efficiency", "Payment processing"]
@@ -233,7 +233,7 @@ const Templates = () => {
       category: "Agriculture",
       intents: 26,
       entities: 18,
-      price: 149,
+      price: 13999,
       rating: 4.6,
       downloads: 234,
       features: ["Crop monitoring", "Weather alerts", "Supply coordination", "Pest management", "Harvest planning", "Market prices"]
@@ -244,7 +244,7 @@ const Templates = () => {
       category: "Media",
       intents: 29,
       entities: 20,
-      price: 89,
+      price: 6999,
       rating: 4.8,
       downloads: 1670,
       features: ["Content discovery", "Personalized recommendations", "Subscription management", "Watchlist tracking", "Social sharing", "Content rating"]
@@ -255,7 +255,7 @@ const Templates = () => {
       category: "Non-Profit",
       intents: 23,
       entities: 15,
-      price: 79,
+      price: 2999,
       rating: 4.7,
       downloads: 567,
       features: ["Donor management", "Campaign tracking", "Volunteer coordination", "Event planning", "Impact reporting", "Thank you automation"]
@@ -266,7 +266,7 @@ const Templates = () => {
       category: "Government",
       intents: 35,
       entities: 25,
-      price: 199,
+      price: 45999,
       rating: 4.3,
       downloads: 289,
       features: ["Application processing", "Document requests", "Information delivery", "Appointment scheduling", "Status tracking", "Multi-language support"]
@@ -277,7 +277,7 @@ const Templates = () => {
       category: "Beauty & Wellness",
       intents: 21,
       entities: 13,
-      price: 69,
+      price: 999,
       rating: 4.8,
       downloads: 923,
       features: ["Appointment booking", "Service recommendations", "Client preferences", "Product suggestions", "Loyalty rewards", "Staff scheduling"]
@@ -347,7 +347,7 @@ const Templates = () => {
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-1">
                         <DollarSign className="h-4 w-4 text-green-600" />
-                        <span className="text-2xl font-bold text-green-600">${template.price}</span>
+                        <span className="text-2xl font-bold text-green-600">${template.price.toLocaleString()}</span>
                       </div>
                       <span className="text-sm text-gray-500">One-time purchase</span>
                     </div>
