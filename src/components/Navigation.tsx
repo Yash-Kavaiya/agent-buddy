@@ -123,9 +123,35 @@ const Navigation = () => {
               </NavigationMenuItem>
               
               <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link to="/community" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">Community</Link>
-                </NavigationMenuLink>
+                <NavigationMenuTrigger className="text-gray-600 hover:text-blue-600">Company</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid gap-3 p-6 w-[300px]">
+                    <NavigationMenuLink asChild>
+                      <Link to="/about-us" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">About Us</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Learn about our company</p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/mission-vision" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">Mission & Vision</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Our mission and vision</p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/career" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">Career</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Join our team</p>
+                      </Link>
+                    </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/teams" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">Teams</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Meet our team</p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </div>
+                </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>

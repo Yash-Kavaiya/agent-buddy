@@ -21,8 +21,11 @@ import LiveSupport from "./pages/LiveSupport";
 import Templates from "./pages/Templates";
 import Dashboard from "./pages/Dashboard";
 import Contact from "./pages/Contact";
-import Community from "./pages/Community";
 import Pricing from "./pages/Pricing";
+import AboutUs from "./pages/AboutUs";
+import MissionVision from "./pages/MissionVision";
+import Career from "./pages/Career";
+import Teams from "./pages/Teams";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -51,8 +54,11 @@ const App = () => (
           <Route path="/templates" element={<Templates />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/community" element={<Community />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/mission-vision" element={<MissionVision />} />
+          <Route path="/career" element={<Career />} />
+          <Route path="/teams" element={<Teams />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
