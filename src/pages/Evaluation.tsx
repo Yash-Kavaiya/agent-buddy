@@ -57,6 +57,12 @@ import {
   Award,
   ArrowUpRight,
   ArrowDownRight,
+  Brain,
+  Eye,
+  BookOpen,
+  Sparkles,
+  ShieldAlert,
+  FileCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -64,7 +70,7 @@ import { toast } from "sonner";
 interface Evaluation {
   id: string;
   name: string;
-  type: 'intent' | 'response' | 'entity' | 'flow' | 'latency' | 'edge';
+  type: 'intent' | 'response' | 'entity' | 'flow' | 'latency' | 'edge' | 'hallucination' | 'factual' | 'coherence' | 'toxicity' | 'prompt_adherence';
   status: 'pending' | 'running' | 'completed' | 'failed';
   score: number;
   totalTests: number;
@@ -226,6 +232,42 @@ const evaluationTypes = [
     icon: ShieldCheck,
     color: 'bg-red-500',
   },
+  // LLM Evaluation Types
+  {
+    type: 'hallucination',
+    name: 'Hallucination Detection',
+    description: 'Detect fabricated or inaccurate information in LLM responses',
+    icon: Eye,
+    color: 'bg-pink-500',
+  },
+  {
+    type: 'factual',
+    name: 'Factual Accuracy',
+    description: 'Verify correctness of facts and claims against ground truth',
+    icon: BookOpen,
+    color: 'bg-indigo-500',
+  },
+  {
+    type: 'coherence',
+    name: 'Coherence & Fluency',
+    description: 'Evaluate logical consistency and natural language quality',
+    icon: Sparkles,
+    color: 'bg-amber-500',
+  },
+  {
+    type: 'toxicity',
+    name: 'Toxicity & Safety',
+    description: 'Screen for harmful, biased, or inappropriate content',
+    icon: ShieldAlert,
+    color: 'bg-rose-600',
+  },
+  {
+    type: 'prompt_adherence',
+    name: 'Prompt Adherence',
+    description: 'Measure how well responses follow system instructions',
+    icon: FileCheck,
+    color: 'bg-teal-500',
+  },
 ];
 
 const Evaluation = () => {
@@ -271,7 +313,7 @@ const Evaluation = () => {
         if (prev >= 100) {
           clearInterval(interval);
           setIsRunning(false);
-          
+
           setEvaluations(evaluations.map(e => {
             if (e.id === evalId) {
               const passedTests = Math.floor(e.totalTests * (0.85 + Math.random() * 0.15));
@@ -286,7 +328,7 @@ const Evaluation = () => {
             }
             return e;
           }));
-          
+
           toast.success("Evaluation completed successfully");
           return 100;
         }
@@ -331,7 +373,7 @@ const Evaluation = () => {
       metrics: mockMetrics,
       evaluations: evaluations.filter(e => e.status === 'completed'),
     }, null, 2);
-    
+
     const blob = new Blob([reportData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -456,9 +498,8 @@ const Evaluation = () => {
                   </span>
                   <span className="text-sm text-gray-600">{metric.unit}</span>
                 </div>
-                <div className={`flex items-center gap-1 text-sm mt-1 ${
-                  metric.change > 0 ? 'text-green-600' : 'text-red-600'
-                }`}>
+                <div className={`flex items-center gap-1 text-sm mt-1 ${metric.change > 0 ? 'text-green-600' : 'text-red-600'
+                  }`}>
                   {metric.change > 0 ? (
                     <ArrowUpRight className="h-3 w-3" />
                   ) : (
@@ -485,6 +526,10 @@ const Evaluation = () => {
             <TabsTrigger value="types" className="gap-2">
               <Target className="h-4 w-4" />
               Evaluation Types
+            </TabsTrigger>
+            <TabsTrigger value="llm" className="gap-2">
+              <Brain className="h-4 w-4" />
+              LLM Evaluation
             </TabsTrigger>
             <TabsTrigger value="benchmarks" className="gap-2">
               <Award className="h-4 w-4" />
@@ -643,10 +688,9 @@ const Evaluation = () => {
                         </TableCell>
                         <TableCell>
                           {evaluation.status === 'completed' ? (
-                            <span className={`font-bold ${
-                              evaluation.score >= 90 ? 'text-green-600' :
+                            <span className={`font-bold ${evaluation.score >= 90 ? 'text-green-600' :
                               evaluation.score >= 80 ? 'text-yellow-600' : 'text-red-600'
-                            }`}>
+                              }`}>
                               {evaluation.score.toFixed(1)}%
                             </span>
                           ) : '-'}
@@ -700,8 +744,8 @@ const Evaluation = () => {
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">{type.name}</h3>
                     <p className="text-sm text-gray-600 mb-4">{type.description}</p>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="w-full gap-2"
                       onClick={() => {
                         setSelectedType(type.type);
@@ -715,6 +759,219 @@ const Evaluation = () => {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          {/* LLM Evaluation Tab */}
+          <TabsContent value="llm" className="space-y-6">
+            {/* LLM Metrics Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-pink-50 to-pink-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Eye className="h-4 w-4 text-pink-600" />
+                    <span className="text-xs font-medium text-pink-700">Hallucination Rate</span>
+                  </div>
+                  <div className="text-2xl font-bold text-pink-900">2.3%</div>
+                  <div className="text-xs text-pink-600">↓ 0.5% from baseline</div>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-indigo-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <BookOpen className="h-4 w-4 text-indigo-600" />
+                    <span className="text-xs font-medium text-indigo-700">Factual Accuracy</span>
+                  </div>
+                  <div className="text-2xl font-bold text-indigo-900">96.8%</div>
+                  <div className="text-xs text-indigo-600">↑ 1.2% improvement</div>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-amber-50 to-amber-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles className="h-4 w-4 text-amber-600" />
+                    <span className="text-xs font-medium text-amber-700">Coherence Score</span>
+                  </div>
+                  <div className="text-2xl font-bold text-amber-900">4.6/5</div>
+                  <div className="text-xs text-amber-600">Based on 1.2k samples</div>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-rose-50 to-rose-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <ShieldAlert className="h-4 w-4 text-rose-600" />
+                    <span className="text-xs font-medium text-rose-700">Safety Score</span>
+                  </div>
+                  <div className="text-2xl font-bold text-rose-900">99.1%</div>
+                  <div className="text-xs text-rose-600">0 critical issues</div>
+                </CardContent>
+              </Card>
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-teal-50 to-teal-100">
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileCheck className="h-4 w-4 text-teal-600" />
+                    <span className="text-xs font-medium text-teal-700">Prompt Adherence</span>
+                  </div>
+                  <div className="text-2xl font-bold text-teal-900">91.4%</div>
+                  <div className="text-xs text-teal-600">↑ 3.2% from last run</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* LLM Evaluation Types */}
+              <div className="lg:col-span-2">
+                <Card className="border-0 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Brain className="h-5 w-5 text-purple-600" />
+                      LLM Evaluation Types
+                    </CardTitle>
+                    <CardDescription>
+                      Specialized evaluation metrics for Large Language Models
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {evaluationTypes.filter(t => ['hallucination', 'factual', 'coherence', 'toxicity', 'prompt_adherence'].includes(t.type)).map((type) => (
+                        <div key={type.type} className="p-4 rounded-lg border-2 border-gray-200 hover:border-purple-300 transition-colors">
+                          <div className="flex items-start gap-3">
+                            <div className={`w-10 h-10 ${type.color} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                              <type.icon className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900">{type.name}</h4>
+                              <p className="text-xs text-gray-600 mt-1">{type.description}</p>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="mt-3 gap-1"
+                                onClick={() => {
+                                  setSelectedType(type.type);
+                                  setIsCreateDialogOpen(true);
+                                }}
+                              >
+                                <Plus className="h-3 w-3" />
+                                Run Test
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Quick LLM Test */}
+              <div className="lg:col-span-1">
+                <Card className="border-0 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Zap className="h-5 w-5 text-yellow-600" />
+                      Quick LLM Test
+                    </CardTitle>
+                    <CardDescription>
+                      Run a quick evaluation on a single prompt
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <Label>System Prompt</Label>
+                      <Textarea
+                        placeholder="You are a helpful assistant..."
+                        className="mt-1 h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label>User Input</Label>
+                      <Textarea
+                        placeholder="Enter a test query..."
+                        className="mt-1 h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label>Expected Response (Ground Truth)</Label>
+                      <Textarea
+                        placeholder="Expected response for comparison..."
+                        className="mt-1 h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label>Evaluation Criteria</Label>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        <Badge variant="secondary" className="cursor-pointer hover:bg-pink-100">Hallucination</Badge>
+                        <Badge variant="secondary" className="cursor-pointer hover:bg-indigo-100">Factual</Badge>
+                        <Badge variant="secondary" className="cursor-pointer hover:bg-amber-100">Coherence</Badge>
+                        <Badge variant="secondary" className="cursor-pointer hover:bg-rose-100">Safety</Badge>
+                      </div>
+                    </div>
+                    <Button className="w-full gap-2 bg-purple-600 hover:bg-purple-700">
+                      <Play className="h-4 w-4" />
+                      Run Quick Test
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* LLM Benchmark Suites */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="h-5 w-5 text-orange-600" />
+                  LLM Benchmark Suites
+                </CardTitle>
+                <CardDescription>
+                  Industry-standard benchmarks for LLM evaluation
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-4 rounded-lg border-2 border-gray-200 hover:border-orange-300 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Brain className="h-5 w-5 text-orange-600" />
+                      <h4 className="font-semibold text-gray-900">TruthfulQA</h4>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-3">Tests model truthfulness and resistance to generating false information</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">817 questions</span>
+                      <Button size="sm" variant="outline" className="gap-1">
+                        <Play className="h-3 w-3" />
+                        Run
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-lg border-2 border-gray-200 hover:border-orange-300 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <ShieldAlert className="h-5 w-5 text-orange-600" />
+                      <h4 className="font-semibold text-gray-900">RealToxicityPrompts</h4>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-3">Measures toxic content generation across diverse prompts</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">100k prompts</span>
+                      <Button size="sm" variant="outline" className="gap-1">
+                        <Play className="h-3 w-3" />
+                        Run
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-4 rounded-lg border-2 border-gray-200 hover:border-orange-300 transition-colors">
+                    <div className="flex items-center gap-2 mb-2">
+                      <MessageSquare className="h-5 w-5 text-orange-600" />
+                      <h4 className="font-semibold text-gray-900">MT-Bench</h4>
+                    </div>
+                    <p className="text-xs text-gray-600 mb-3">Multi-turn conversation quality benchmark</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-gray-500">80 conversations</span>
+                      <Button size="sm" variant="outline" className="gap-1">
+                        <Play className="h-3 w-3" />
+                        Run
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* Benchmarks Tab */}
