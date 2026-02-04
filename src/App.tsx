@@ -17,6 +17,7 @@ import TestingTools from "./pages/TestingTools";
 import MyDashboard from "./pages/MyDashboard";
 import DocsHelper from "./pages/DocsHelper";
 import Evaluation from "./pages/Evaluation";
+import Guardrails from "./pages/Guardrails";
 import LearningAgents from "./pages/LearningAgents";
 import LiveSupport from "./pages/LiveSupport";
 import Templates from "./pages/Templates";
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/my-dashboard" element={<MyDashboard />} />
           <Route path="/docs-helper" element={<DocsHelper />} />
           <Route path="/evaluation" element={<Evaluation />} />
+          <Route path="/guardrails" element={<Guardrails />} />
           <Route path="/learning-agents" element={<LearningAgents />} />
           <Route path="/live-support" element={<LiveSupport />} />
           <Route path="/templates" element={<Templates />} />

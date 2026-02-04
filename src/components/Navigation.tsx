@@ -103,6 +103,12 @@ const Navigation = () => {
                         <p className="line-clamp-2 text-sm leading-snug text-gray-500">Evaluate and benchmark your agents</p>
                       </Link>
                     </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/guardrails" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">Guardrails</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Safety controls and content filtering</p>
+                      </Link>
+                    </NavigationMenuLink>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
