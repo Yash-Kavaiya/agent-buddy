@@ -1,13 +1,13 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
-  NavigationMenu, 
-  NavigationMenuContent, 
-  NavigationMenuItem, 
-  NavigationMenuLink, 
-  NavigationMenuList, 
-  NavigationMenuTrigger 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger
 } from "@/components/ui/navigation-menu";
 import { Code, Book, Webhook, LayoutDashboard, DollarSign } from "lucide-react";
 
@@ -22,7 +22,7 @@ const Navigation = () => {
             </div>
             <span className="text-xl font-medium text-gray-900">Agents Buddy</span>
           </Link>
-          
+
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -74,7 +74,7 @@ const Navigation = () => {
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-gray-600 hover:text-blue-600">Tools</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -97,22 +97,28 @@ const Navigation = () => {
                         <p className="line-clamp-2 text-sm leading-snug text-gray-500">Interactive documentation assistant</p>
                       </Link>
                     </NavigationMenuLink>
+                    <NavigationMenuLink asChild>
+                      <Link to="/evaluation" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50 focus:text-blue-600">
+                        <div className="text-sm font-medium leading-none">Agent Evaluation</div>
+                        <p className="line-clamp-2 text-sm leading-snug text-gray-500">Evaluate and benchmark your agents</p>
+                      </Link>
+                    </NavigationMenuLink>
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link to="/learning-agents" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">Learning</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link to="/templates" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600">Templates</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link to="/pricing" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-blue-600 flex items-center">
@@ -121,7 +127,7 @@ const Navigation = () => {
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              
+
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="text-gray-600 hover:text-blue-600">Company</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -155,7 +161,7 @@ const Navigation = () => {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          
+
           <div className="flex items-center space-x-4">
             <Button variant="ghost" className="text-gray-600 hover:text-blue-600" asChild>
               <Link to="/live-support">Live Support</Link>
